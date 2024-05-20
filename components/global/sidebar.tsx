@@ -6,9 +6,11 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { theme } = useTheme();
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -37,6 +39,8 @@ export default function Sidebar() {
       icon: Settings,
     },
   ];
+  
+  const logoSrc = theme === "light" ? "/logo-dark.svg" : "logo-light.svg";
 
   return (
     <aside className="shadow-sm border-r h-full">
@@ -44,7 +48,7 @@ export default function Sidebar() {
         width={150}
         height={150}
         alt="Logo"
-        src="/logo.svg"
+        src={logoSrc}
         className="m-auto mt-6"
       />
       <nav className="mt-8">

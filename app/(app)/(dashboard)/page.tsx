@@ -1,6 +1,6 @@
 const DashboardPage = () => {
   return ( 
-    <div>
+    <div className="p-8">
       
     </div>
    );
