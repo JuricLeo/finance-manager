@@ -21,7 +21,27 @@ export async function POST(request: Request) {
 
     return NextResponse.json(expense);
   } catch (error) {
-    console.log("[EXPENSES]", error);
+    console.log("[EXPENSES POST ERROR]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
+
+export async function GET() {
+  try {
+    const { userId } = auth();
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const expenses = await db.expense.findMany({
+      where: { userId },
+      orderBy: { date: "desc" },
+    });
+
+    return NextResponse.json(expenses);
+  } catch (error) {
+    console.log("[EXPENSES GET ERROR]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

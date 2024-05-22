@@ -45,22 +45,29 @@ export default function Navbar() {
           <Menu />
         </SheetTrigger>
         <SheetContent side="left">
-          <SheetHeader>
+          <SheetHeader className="flex flex-col h-full">
             <SheetTitle className="mb-12">Navigation</SheetTitle>
-            <SheetDescription className="flex flex-col gap-y-6">
-              {routes.map((route) => (
-                <Link
-                  href={route.href}
-                  key={route.href}
-                  className={cn(
-                    "flex items-center gap-x-2 py-6 pr-6",
-                    pathname === route.href ? "border-r-2 border-primary" : ""
-                  )}
-                >
-                  <route.icon />
-                  <span>{route.label}</span>
-                </Link>
-              ))}
+            <SheetDescription className="flex flex-col h-full">
+              <div className="flex-grow flex flex-col gap-y-6">
+                {routes.map((route) => (
+                  <Link
+                    href={route.href}
+                    key={route.href}
+                    className={cn(
+                      "flex items-center gap-x-2 py-6 pr-6",
+                      pathname === route.href ? "border-r-2 border-primary" : ""
+                    )}
+                  >
+                    <route.icon />
+                    <span>{route.label}</span>
+                  </Link>
+                ))}
+              </div>
+              <p className="text-center">
+                Copyright © 2024
+                <br />
+                Leopold Jurić
+              </p>
             </SheetDescription>
           </SheetHeader>
         </SheetContent>
