@@ -43,6 +43,8 @@ export default function TodaysRecords() {
     fetchCategories();
   }, []);
 
+  const today = new Date().toISOString().split('T')[0];
+
   const date = (dateTimeString: string) => {
     const date = new Date(dateTimeString);
     const hours = date.getHours().toString().padStart(2, "0");
@@ -57,9 +59,11 @@ export default function TodaysRecords() {
     return matchedCategory ? matchedCategory.emoji : "✅";
   };
 
+  const todaysExpenses = expenses.filter(expense => expense.date.split('T')[0] === today);
+
   return (
     <div className="mt-12">
-      {expenses.map((expense) => (
+      {todaysExpenses.map((expense) => (
         <div className="flex mt-2 justify-center w-[24rem] mx-auto py-4 px-8 bg-black/15 dark:bg-white/15 rounded-sm">
           <div
             key={expense.id}
