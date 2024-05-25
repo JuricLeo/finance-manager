@@ -32,6 +32,13 @@ import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useToast } from "../ui/use-toast";
+import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
+
+interface Category {
+  name: string;
+  emoji: string;
+}
 
 const formSchema = z.object({
   amount: z
@@ -71,6 +78,21 @@ export default function AddNewRecord() {
       });
     }
   };
+
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    async function fetchCategory() {
+      try {
+        const response = await axios.get("/api/category");
+        setCategories(response.data);
+      } catch (error) {
+        console.log("Error fetching categories: ", error);
+      }
+    }
+
+    fetchCategory();
+  }, []);
 
   const today = new Date();
   const day = String(today.getDate()).padStart(2, "0");
@@ -124,47 +146,52 @@ export default function AddNewRecord() {
                       />
                       <p className="text-2xl mr-2">$</p>
                     </div>
-                    <div className="w-full my-6 h-[1px] mx-auto bg-primary rounded-md max-w-80" />
+                    <div
+                      className={cn(
+                        "w-full my-6 h-[1px] mx-auto rounded-md max-w-80",
+                        categories.length > 0 ? "bg-primary" : "bg-muted-foreground"
+                      )}
+                    />
                     <div className="flex justify-center">
-                      <FormField
-                        control={form.control}
-                        name="category"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <Select
-                                onValueChange={(value) => field.onChange(value.toLowerCase())}
-                                defaultValue={field.value}
-                                disabled={isSubmitting}
-                                {...field}
-                              >
-                                <SelectTrigger className="w-[180px]">
-                                  <SelectValue placeholder="Choose a category" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="rent">🏠 Rent</SelectItem>
-                                  <SelectItem value="clothes">
-                                    👕 Clothes
-                                  </SelectItem>
-                                  <SelectItem value="coffee">
-                                    ☕ Coffee
-                                  </SelectItem>
-                                  <SelectItem value="clubbing">
-                                    🕺 Clubbing
-                                  </SelectItem>
-                                  <SelectItem value="gas">🚗 Gas</SelectItem>
-                                  <SelectItem value="+">
-                                    <div className="flex items-center gap-x-1">
-                                      <PlusCircle size={20} />
-                                      <p>Add a category</p>
-                                    </div>
-                                  </SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
+                      {categories.length > 0 ? (
+                        <FormField
+                          control={form.control}
+                          name="category"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormControl>
+                                <Select
+                                  onValueChange={(value) =>
+                                    field.onChange(value.toLowerCase())
+                                  }
+                                  defaultValue={field.value}
+                                  disabled={isSubmitting}
+                                  {...field}
+                                >
+                                  <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="Choose a category" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    {categories.map((category) => (
+                                      <SelectItem
+                                        key={category.name}
+                                        value={category.name}
+                                      >
+                                        {category.emoji} {category.name}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      ) : (
+                        <p>
+                          There are no categories yet. Go to
+                          &apos;/settings&apos; to add a new one.
+                        </p>
+                      )}
                     </div>
                   </div>
                   <DrawerFooter>
