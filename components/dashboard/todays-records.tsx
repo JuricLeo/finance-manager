@@ -3,6 +3,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+interface TodaysRecordsProps {
+  shouldRefreshExpenses: boolean;
+}
+
 interface Expense {
   id: string;
   userId: string;
@@ -16,7 +20,7 @@ interface Category {
   emoji: string;
 }
 
-export default function TodaysRecords() {
+export default function TodaysRecords({ shouldRefreshExpenses }: TodaysRecordsProps) {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
@@ -29,7 +33,7 @@ export default function TodaysRecords() {
         console.log("Error fetching expenses: ", error);
       }
     }
-
+  
     async function fetchCategories() {
       try {
         const response = await axios.get("api/category");
@@ -38,10 +42,10 @@ export default function TodaysRecords() {
         console.log("Error fetching categories: ", error);
       }
     }
-
+  
     fetchExpenses();
     fetchCategories();
-  }, []);
+  }, [shouldRefreshExpenses]);
 
   const today = new Date().toISOString().split('T')[0];
 

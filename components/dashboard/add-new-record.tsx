@@ -35,6 +35,10 @@ import { useToast } from "../ui/use-toast";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
+interface AddNewRecordProps {
+  refreshExpenses: () => void;
+}
+
 interface Category {
   name: string;
   emoji: string;
@@ -51,7 +55,7 @@ const formSchema = z.object({
   }),
 });
 
-export default function AddNewRecord() {
+export default function AddNewRecord({ refreshExpenses }: AddNewRecordProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -70,6 +74,7 @@ export default function AddNewRecord() {
         description: "The expense was successfully recorded",
         variant: "success",
       });
+      refreshExpenses();
     } catch {
       toast({
         title: "Something went wrong.",
