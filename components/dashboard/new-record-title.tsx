@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 interface NewRecordTitleProps {
-  shouldRefreshExpenses: boolean;
+  fetchExpenses: () => void;
 }
 
 interface Expense {
@@ -13,7 +13,7 @@ interface Expense {
   date: string;
 }
 
-export default function NewRecordTitle({ shouldRefreshExpenses }: NewRecordTitleProps) {
+export default function NewRecordTitle({ fetchExpenses }: NewRecordTitleProps) {
   const [expenses, setExpenses] = useState<Expense[]>([]);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function NewRecordTitle({ shouldRefreshExpenses }: NewRecordTitle
     }
 
     fetchExpenses();
-  }, [shouldRefreshExpenses]);
+  }, [fetchExpenses]);
 
   const totalExpenses = () => {
     const today = new Date().toISOString().slice(0, 10);

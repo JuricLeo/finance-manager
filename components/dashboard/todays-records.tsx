@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 interface TodaysRecordsProps {
-  shouldRefreshExpenses: boolean;
+  fetchExpenses: () => void;
 }
 
 interface Expense {
@@ -20,7 +20,7 @@ interface Category {
   emoji: string;
 }
 
-export default function TodaysRecords({ shouldRefreshExpenses }: TodaysRecordsProps) {
+export default function TodaysRecords({ fetchExpenses }: TodaysRecordsProps) {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
@@ -45,7 +45,7 @@ export default function TodaysRecords({ shouldRefreshExpenses }: TodaysRecordsPr
   
     fetchExpenses();
     fetchCategories();
-  }, [shouldRefreshExpenses]);
+  }, [fetchExpenses]);
 
   const today = new Date().toISOString().split('T')[0];
 

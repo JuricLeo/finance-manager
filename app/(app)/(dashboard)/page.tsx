@@ -16,15 +16,16 @@ interface Expense {
 const DashboardPage = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
 
-  useEffect(() => {
-    async function fetchExpenses() {
-      try {
-        const response = await axios.get("/api/expense");
-        setExpenses(response.data);
-      } catch (error) {
-        console.log("Error fetching the expenses: ", error);
-      }
+  const fetchExpenses = async () => {
+    try {
+      const response = await axios.get("/api/expense");
+      setExpenses(response.data);
+    } catch (error) {
+      console.log("Error fetching the expenses: ", error);
     }
+  };
+
+  useEffect(() => {
     fetchExpenses();
   }, []);
 
@@ -55,7 +56,7 @@ const DashboardPage = () => {
         <MoneySpentCard date="month" amount={monthTotal} />
         <MoneySpentCard date="week" amount={weekTotal} />
       </div>
-      <NewRecord />
+      <NewRecord fetchExpenses={fetchExpenses} />
     </div>
   );
 };

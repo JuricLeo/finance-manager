@@ -1,23 +1,20 @@
 "use client";
 
-import { useState } from "react";
 import AddNewRecord from "./add-new-record";
 import NewRecordTitle from "./new-record-title";
 import TodaysRecords from "./todays-records";
 
-export default function NewRecord() {
-  const [shouldRefreshExpenses, setShouldRefreshExpenses] = useState(false);
+interface NewRecordProps {
+  fetchExpenses: () => void;
+}
 
-  const refreshExpenses = () => {
-    setShouldRefreshExpenses(!shouldRefreshExpenses);
-  };
-
+export default function NewRecord({ fetchExpenses }: NewRecordProps) {
   return (
     <div className="my-12 w-full rounded-sm bg-black/10 dark:bg-white/10 shadow-xl">
       <div className="py-12">
-        <NewRecordTitle shouldRefreshExpenses={shouldRefreshExpenses} />
-        <TodaysRecords shouldRefreshExpenses={shouldRefreshExpenses} />
-        <AddNewRecord refreshExpenses={refreshExpenses} />
+        <NewRecordTitle fetchExpenses={fetchExpenses} />
+        <TodaysRecords fetchExpenses={fetchExpenses} />
+        <AddNewRecord refreshExpenses={fetchExpenses} />
       </div>
     </div>
   );
