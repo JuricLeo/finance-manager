@@ -1,14 +1,30 @@
+"use client";
+
 import { ModeToggle } from "@/components/mode-toggle";
 import { DataTable } from "@/components/settings/data-table";
 import { columns } from "./columns";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const SettingsPage = () => {
-  const data = [
-    {
-      name: "Coffee",
-      emoji: "☕",
-    },
-  ];
+  const [categories, setCategories] = useState([]);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get("/api/category");
+      setCategories(response.data);
+    } catch (error) {
+      console.log("Error fetching the categories: ", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const handleNewCategoryAdded = () => {
+    fetchCategories();
+  };
 
   return (
     <main className="p-8 space-y-6">
@@ -23,7 +39,7 @@ const SettingsPage = () => {
         <h2>Change the application's language here:</h2>
       </div>
       <div className="pt-4">
-        <DataTable columns={columns} data={data} />
+        <DataTable columns={columns} data={categories} onCategoryAdded={handleNewCategoryAdded} />
       </div>
     </main>
   );

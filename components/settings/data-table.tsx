@@ -36,7 +36,8 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
   columns,
   data,
-}: DataTableProps<TData, TValue>) {
+  onCategoryAdded,
+}: DataTableProps<TData, TValue> & { onCategoryAdded: () => void }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -72,7 +73,7 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm text-black"
         />
-        <AddNewCategory />
+        <AddNewCategory onCategoryAdded={onCategoryAdded} />
       </div>
       <div className="rounded-md border">
         <Table>

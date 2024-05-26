@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Input } from "../ui/input";
 
-import { optional, z } from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
@@ -24,6 +24,10 @@ import {
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
 import axios from "axios";
+
+interface AddNewCategoryProps {
+  onCategoryAdded: () => void;
+}
 
 const formSchema = z.object({
   name: z
@@ -39,10 +43,10 @@ const formSchema = z.object({
     .max(1, {
       message: "Emoji can't be longer than 1 character",
     })
-    .optional()
+    .optional(),
 });
 
-export default function AddNewCategory() {
+export default function AddNewCategory({ onCategoryAdded }: AddNewCategoryProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -59,11 +63,12 @@ export default function AddNewCategory() {
         description: "The category was successfully recorded",
         variant: "success",
       });
+      onCategoryAdded();
       form.reset();
     } catch (error) {
       toast({
         title: "Something went wrong.",
-        description: "Please try again later",
+        description: "Please try again later. ( Additionally check if category's name was unique ).",
         variant: "destructive",
       });
     }
@@ -89,7 +94,12 @@ export default function AddNewCategory() {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Name</FormLabel>
+                      <FormLabel className="flex items-center">
+                        <p>Name</p>{" "}
+                        <span className="text-rose-800 text-xs ml-2">
+                          &#40;Category&apos;s name must be unique!&#41;
+                        </span>
+                      </FormLabel>
                       <FormControl>
                         <Input
                           disabled={isSubmitting}
