@@ -75,6 +75,7 @@ export default function AddNewRecord({ refreshExpenses }: AddNewRecordProps) {
         variant: "success",
       });
       refreshExpenses();
+      form.reset();
     } catch {
       toast({
         title: "Something went wrong.",
@@ -154,7 +155,9 @@ export default function AddNewRecord({ refreshExpenses }: AddNewRecordProps) {
                     <div
                       className={cn(
                         "w-full my-6 h-[1px] mx-auto rounded-md max-w-80",
-                        categories.length > 0 ? "bg-primary" : "bg-muted-foreground"
+                        categories.length > 0
+                          ? "bg-primary"
+                          : "bg-muted-foreground"
                       )}
                     />
                     <div className="flex justify-center">

@@ -47,17 +47,16 @@ const DashboardPage = () => {
 
   const weekTotal = weekExpenses.reduce((total, expense) => total + expense.amount, 0);
   const monthTotal = monthExpenses.reduce((total, expense) => total + expense.amount, 0);
-  
 
   return (
-    <div className="p-8">
+    <main className="p-8">
       <HelloUser />
       <div className="flex flex-col xl:flex-row mt-6 gap-y-6 gap-x-4">
         <MoneySpentCard date="month" amount={monthTotal} />
         <MoneySpentCard date="week" amount={weekTotal} />
       </div>
       <NewRecord fetchExpenses={fetchExpenses} />
-    </div>
+    </main>
   );
 };
 
