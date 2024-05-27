@@ -88,7 +88,7 @@ export default function UpdateModal({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>{t("update")}</AlertDialogTrigger>
+      <AlertDialogTrigger className="text-white dark:text-black">{t("update")}</AlertDialogTrigger>
       <AlertDialogContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
