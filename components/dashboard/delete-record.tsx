@@ -10,33 +10,33 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "../ui/use-toast";
+import { CircleMinus } from "lucide-react";
+
 import axios from "axios";
+
 import useLanguageStore from "@/store/useLanguageStore";
 
-interface DeleteModalProps {
-  categoryId: string;
-  onCategoryDeleted: () => void;
+interface DeleteRecordProps {
+  expenseId: string;
+  onExpenseDeleted: () => void;
 }
 
-export default function DeleteModal({
-  categoryId,
-  onCategoryDeleted,
-}: DeleteModalProps) {
+export default function DeleteRecord({ expenseId, onExpenseDeleted }: DeleteRecordProps) {
   const { t } = useLanguageStore(); 
 
   const onDelete = async () => {
-    await axios.delete("/api/category", { data: { categoryId } });
+    await axios.delete("/api/expense", { data: { expenseId } });
     try {
       toast({
-        title: t("delete-category-toast-success-title"),
-        description: t("delete-category-toast-success-description"),
+        title: t("delete-expense-toast-success-title"),
+        description: t("delete-expense-toast-success-description"),
         variant: "success",
       });
-      onCategoryDeleted();
+      onExpenseDeleted();
     } catch {
       toast({
-        title: t("delete-category-toast-error-title"),
-        description: t("delete-category-toast-error-description"),
+        title: t("delete-expense-toast-error-title"),
+        description: t("delete-expense-toast-error-description"),
         variant: "destructive",
       });
     }
@@ -44,12 +44,14 @@ export default function DeleteModal({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>{t("delete")}</AlertDialogTrigger>
+      <AlertDialogTrigger>
+        <CircleMinus className="ml-4 text-rose-400 cursor-pointer" />
+      </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{t("delete-title")}</AlertDialogTitle>
+          <AlertDialogTitle>{t("delete-expense-title")}</AlertDialogTitle>
           <AlertDialogDescription className="py-2">
-            {t("delete-description")}
+            {t("delete-expense-description")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

@@ -45,3 +45,33 @@ export async function GET() {
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const { userId } = auth();
+    const { expenseId } = await request.json();
+
+    const expense = await db.expense.findUnique({
+      where: {
+        id: expenseId,
+      },
+    });
+
+    if (!userId || expense?.userId !== userId) {
+      return new NextResponse("Expense not found or unauthorized", {
+        status: 403,
+      });
+    }
+
+    await db.expense.delete({
+      where: {
+        id: expenseId,
+      },
+    });
+
+    return NextResponse.json(expense);
+  } catch (error) {
+    console.log("EXPENSE DELETE ERROR", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
