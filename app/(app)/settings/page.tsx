@@ -30,6 +30,10 @@ const SettingsPage = () => {
     fetchCategories();
   };
 
+  const handleCategoryDeleted = () => {
+    fetchCategories();
+  };
+
   return (
     <main className="p-8 space-y-6">
       <div className="flex items-center gap-x-2">
@@ -44,7 +48,10 @@ const SettingsPage = () => {
       </div>
       <div className="pt-4">
         <DataTable
-          columns={columns({ onCategoryUpdated: handleCategoryUpdated })}
+          columns={columns({
+            onCategoryUpdated: handleCategoryUpdated,
+            onCategoryDeleted: handleCategoryDeleted,
+          })}
           data={categories}
           onCategoryAdded={handleNewCategoryAdded}
         />

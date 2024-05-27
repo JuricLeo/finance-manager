@@ -64,7 +64,7 @@ export default function UpdateModal({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/category`, { categoryId, ...values });
+      await axios.patch("/api/category", { categoryId, ...values });
       toast({
         title: "Success!",
         description: "The category was successfully updated",

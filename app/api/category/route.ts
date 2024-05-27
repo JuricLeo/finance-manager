@@ -79,3 +79,33 @@ export async function PATCH(request: Request) {
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const { userId } = auth();
+    const { categoryId } = await request.json();
+
+    const category = await db.category.findUnique({
+      where: {
+        id: categoryId,
+      },
+    });
+
+    if (!userId || category?.userId !== userId) {
+      return new NextResponse("Category not found or unauthorized", {
+        status: 403,
+      });
+    }
+
+    await db.category.delete({
+      where: {
+        id: categoryId,
+      },
+    });
+
+    return NextResponse.json(category);
+  } catch (error) {
+    console.log("CATEGORY DELETE ERROR", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}

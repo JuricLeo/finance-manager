@@ -1,5 +1,6 @@
 "use client";
 
+import DeleteModal from "@/components/settings/delete-modal";
 import UpdateModal from "@/components/settings/update-modal";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
@@ -12,9 +13,10 @@ type Category = {
 
 type ColumnsProps = {
   onCategoryUpdated: () => void;
+  onCategoryDeleted: () => void;
 };
 
-export const columns = ({ onCategoryUpdated }: ColumnsProps): ColumnDef<Category>[] => [
+export const columns = ({ onCategoryUpdated, onCategoryDeleted }: ColumnsProps): ColumnDef<Category>[] => [
   {
     accessorKey: "name",
     header: "Name",
@@ -44,8 +46,7 @@ export const columns = ({ onCategoryUpdated }: ColumnsProps): ColumnDef<Category
             />
           </Button>
           <Button variant="destructive" className="w-20">
-            Delete
-            {/* <DeleteModal categoryId={category.id} onDeleted={handleDeletecategory} /> */}
+            <DeleteModal categoryId={category.id} onCategoryDeleted={onCategoryDeleted} />
           </Button>
         </div>
       );
