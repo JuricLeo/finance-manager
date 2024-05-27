@@ -24,29 +24,34 @@ import {
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
 import axios from "axios";
+import useLanguageStore from "@/store/useLanguageStore";
 
 interface AddNewCategoryProps {
   onCategoryAdded: () => void;
 }
 
+const t = useLanguageStore.getState().t;
+
 const formSchema = z.object({
   name: z
     .string()
     .min(1, {
-      message: "Category's name is required",
+      message: t("category-name-required"),
     })
     .max(25, {
-      message: "Category's name can't be longer than 25 characters",
+      message: t("category-name-max"),
     }),
   emoji: z
     .string()
     .max(1, {
-      message: "Emoji can't be longer than 1 character",
+      message: t("emoji-max"),
     })
     .optional(),
 });
 
-export default function AddNewCategory({ onCategoryAdded }: AddNewCategoryProps) {
+export default function AddNewCategory({
+  onCategoryAdded,
+}: AddNewCategoryProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -59,16 +64,16 @@ export default function AddNewCategory({ onCategoryAdded }: AddNewCategoryProps)
     try {
       await axios.post("/api/category", values);
       toast({
-        title: "Success!",
-        description: "The category was successfully recorded",
+        title: t("add-category-toast-success-title"),
+        description: t("add-category-toast-success-description"),
         variant: "success",
       });
       onCategoryAdded();
       form.reset();
     } catch (error) {
       toast({
-        title: "Something went wrong.",
-        description: "Please try again later. ( Additionally check if category's name was unique ).",
+        title: t("add-category-toast-error-title"),
+        description: t("add-category-toast-error-description"),
         variant: "destructive",
       });
     }
@@ -80,14 +85,14 @@ export default function AddNewCategory({ onCategoryAdded }: AddNewCategoryProps)
     <AlertDialog>
       <AlertDialogTrigger>
         <div className="bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
-          Add
+          {t("add-button")}
         </div>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <AlertDialogHeader>
-              <AlertDialogTitle>Add a new category</AlertDialogTitle>
+              <AlertDialogTitle>{t("add-category-title")}</AlertDialogTitle>
               <AlertDialogDescription className="py-4">
                 <FormField
                   control={form.control}
@@ -95,16 +100,16 @@ export default function AddNewCategory({ onCategoryAdded }: AddNewCategoryProps)
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="flex items-center">
-                        <p>Name</p>{" "}
+                        <p>{t("category-name-label")}</p>{" "}
                         <span className="text-rose-800 text-xs ml-2">
-                          &#40;Category&apos;s name must be unique!&#41;
+                          {t("category-unique")}
                         </span>
                       </FormLabel>
                       <FormControl>
                         <Input
                           disabled={isSubmitting}
                           {...field}
-                          placeholder="Coffee"
+                          placeholder={t("coffee")}
                         />
                       </FormControl>
                       <FormMessage />
@@ -121,7 +126,7 @@ export default function AddNewCategory({ onCategoryAdded }: AddNewCategoryProps)
                         <Input
                           disabled={isSubmitting}
                           {...field}
-                          placeholder="☕️"
+                          placeholder="✅"
                         />
                       </FormControl>
                       <FormMessage />
@@ -131,9 +136,9 @@ export default function AddNewCategory({ onCategoryAdded }: AddNewCategoryProps)
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
+              <AlertDialogCancel type="button">{t("cancel")}</AlertDialogCancel>
               <Button type="submit" disabled={isSubmitting}>
-                Add
+                {t("add-button")}
               </Button>
             </AlertDialogFooter>
           </form>

@@ -27,6 +27,7 @@ import { Input } from "@/components/ui/input";
 import AddNewCategory from "./add-new-category";
 
 import React from "react";
+import useLanguageStore from "@/store/useLanguageStore";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -62,11 +63,13 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  const { t } = useLanguageStore(); 
+
   return (
     <div>
       <div className="flex justify-between items-center py-4">
         <Input
-          placeholder="Search names..."
+          placeholder={t("search-placeholder")}
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)

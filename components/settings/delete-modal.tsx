@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "../ui/use-toast";
 import axios from "axios";
+import useLanguageStore from "@/store/useLanguageStore";
 
 interface DeleteModalProps {
   categoryId: string;
@@ -21,6 +22,8 @@ export default function DeleteModal({
   categoryId,
   onCategoryDeleted,
 }: DeleteModalProps) {
+  const { t } = useLanguageStore(); 
+
   const onDelete = async () => {
     await axios.delete("/api/category", { data: { categoryId } });
     try {
@@ -41,18 +44,17 @@ export default function DeleteModal({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>Delete</AlertDialogTrigger>
+      <AlertDialogTrigger>{t("delete")}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            category and remove it from our servers.
+          <AlertDialogTitle>{t("delete-title")}</AlertDialogTitle>
+          <AlertDialogDescription className="py-2">
+            {t("delete-description")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onDelete}>Delete</AlertDialogAction>
+          <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
+          <AlertDialogAction onClick={onDelete}>{t("delete")}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

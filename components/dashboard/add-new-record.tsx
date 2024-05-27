@@ -34,6 +34,7 @@ import { useForm } from "react-hook-form";
 import { useToast } from "../ui/use-toast";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import useLanguageStore from "@/store/useLanguageStore";
 
 interface AddNewRecordProps {
   refreshExpenses: () => void;
@@ -45,16 +46,19 @@ interface Category {
   emoji: string;
 }
 
+const t = useLanguageStore.getState().t;
+
 const formSchema = z.object({
   amount: z
     .number()
     .positive()
     .nullable()
-    .refine((val) => val !== null, { message: "Amount is required" }),
+    .refine((val) => val !== null, { message: t("amount-required") }),
   category: z.string().min(1, {
-    message: "Category is required",
+    message: t("category-required"),
   }),
 });
+
 
 export default function AddNewRecord({ refreshExpenses, currency }: AddNewRecordProps) {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -65,22 +69,22 @@ export default function AddNewRecord({ refreshExpenses, currency }: AddNewRecord
     },
   });
 
-  const { isSubmitting, isValid } = form.formState;
+  const { isSubmitting } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.post("/api/expense", values);
       toast({
-        title: "Success!",
-        description: "The expense was successfully recorded",
+        title: t("add-expense-toast-success-title"),
+        description: t("add-expense-toast-success-description"),
         variant: "success",
       });
       refreshExpenses();
       form.reset();
     } catch {
       toast({
-        title: "Something went wrong.",
-        description: "Please try again later",
+        title: t("add-expense-toast-error-title"),
+        description: t("add-expense-toast-error-title"),
         variant: "destructive",
       });
     }
@@ -121,7 +125,7 @@ export default function AddNewRecord({ refreshExpenses, currency }: AddNewRecord
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle className="text-center">Today: {date}</DrawerTitle>
+            <DrawerTitle className="text-center">{t("today")} {date}</DrawerTitle>
             <DrawerDescription>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -178,7 +182,7 @@ export default function AddNewRecord({ refreshExpenses, currency }: AddNewRecord
                                   {...field}
                                 >
                                   <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Choose a category" />
+                                    <SelectValue placeholder={t("choose-category-placeholder")} />
                                   </SelectTrigger>
                                   <SelectContent>
                                     {categories.map((category) => (
@@ -197,8 +201,7 @@ export default function AddNewRecord({ refreshExpenses, currency }: AddNewRecord
                         />
                       ) : (
                         <p>
-                          There are no categories yet. Go to
-                          &apos;/settings&apos; to add a new one.
+                          {t("no-categories")}
                         </p>
                       )}
                     </div>
@@ -207,9 +210,9 @@ export default function AddNewRecord({ refreshExpenses, currency }: AddNewRecord
                     <Button
                       type="submit"
                       className="w-40 mx-auto"
-                      disabled={!isValid || isSubmitting}
+                      disabled={isSubmitting}
                     >
-                      Submit
+                      {t("submit")}
                     </Button>
                     <DrawerClose>
                       <Button
@@ -217,7 +220,7 @@ export default function AddNewRecord({ refreshExpenses, currency }: AddNewRecord
                         variant="outline"
                         className="w-40 mx-auto"
                       >
-                        Cancel
+                        {t("cancel")}
                       </Button>
                     </DrawerClose>
                   </DrawerFooter>

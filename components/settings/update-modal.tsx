@@ -34,20 +34,23 @@ import { useForm } from "react-hook-form";
 import { toast } from "../ui/use-toast";
 import axios from "axios";
 import { Input } from "../ui/input";
+import useLanguageStore from "@/store/useLanguageStore";
+
+const t = useLanguageStore.getState().t;
 
 const formSchema = z.object({
   name: z
     .string()
     .min(1, {
-      message: "Category's name is required",
+      message: t("category-name-required"),
     })
     .max(25, {
-      message: "Category's name can't be longer than 25 characters",
+      message: t("category-name-max"),
     }),
   emoji: z
     .string()
     .max(1, {
-      message: "Emoji can't be longer than 1 character",
+      message: t("emoji-max"),
     })
     .optional(),
 });
@@ -66,17 +69,16 @@ export default function UpdateModal({
     try {
       await axios.patch("/api/category", { categoryId, ...values });
       toast({
-        title: "Success!",
-        description: "The category was successfully updated",
+        title: t("update-category-toast-success-title"),
+        description: t("update-category-toast-success-description"),
         variant: "success",
       });
       onCategoryUpdated();
       form.reset();
     } catch {
       toast({
-        title: "Something went wrong.",
-        description:
-          "Please try again later. ( Additionally check if category's name is unique ).",
+        title: t("update-category-toast-error-title"),
+        description: t("update-category-toast-error-description"),
         variant: "destructive",
       });
     }
@@ -86,19 +88,19 @@ export default function UpdateModal({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>Update</AlertDialogTrigger>
+      <AlertDialogTrigger>{t("update")}</AlertDialogTrigger>
       <AlertDialogContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <AlertDialogHeader>
-              <AlertDialogTitle>Update Category</AlertDialogTitle>
+              <AlertDialogTitle>{t("update-title")}</AlertDialogTitle>
               <AlertDialogDescription className="py-4">
                 <FormField
                   control={form.control}
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Name</FormLabel>
+                      <FormLabel>{t("category-name-label")}</FormLabel>
                       <FormControl>
                         <Input
                           disabled={isSubmitting}
@@ -130,9 +132,9 @@ export default function UpdateModal({
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
+              <AlertDialogCancel type="button">{t("cancel")}</AlertDialogCancel>
               <Button type="submit" disabled={isSubmitting}>
-                Update
+                {t("update")}
               </Button>
             </AlertDialogFooter>
           </form>

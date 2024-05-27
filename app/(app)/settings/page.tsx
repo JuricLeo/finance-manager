@@ -6,6 +6,8 @@ import { columns } from "./columns";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ChangeCurrency from "@/components/settings/change-currency";
+import useLanguageStore from "@/store/useLanguageStore";
+import ChangeLanguage from "@/components/settings/change-language";
 
 const SettingsPage = () => {
   const [categories, setCategories] = useState([]);
@@ -35,18 +37,21 @@ const SettingsPage = () => {
     fetchCategories();
   };
 
+  const { t } = useLanguageStore();
+
   return (
     <main className="p-8 space-y-6">
       <div className="flex items-center gap-x-2">
-        <h2>Change the application's theme here:</h2>
+        <h2>{t("change-theme")}</h2>
         <ModeToggle />
       </div>
       <div className="flex items-center gap-x-2">
-        <h2>Change the application's currency here:</h2>
+        <h2>{t("change-currency")}</h2>
         <ChangeCurrency />
       </div>
       <div className="flex items-center gap-x-2">
-        <h2>Change the application's language here:</h2>
+        <h2>{t("change-language")}</h2>
+        <ChangeLanguage />
       </div>
       <div className="pt-4">
         <DataTable

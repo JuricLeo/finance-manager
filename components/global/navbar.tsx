@@ -14,24 +14,27 @@ import {
 } from "@/components/ui/sheet";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import useLanguageStore from "@/store/useLanguageStore";
 
 export default function Navbar() {
   const pathname = usePathname();
 
+  const { t } = useLanguageStore();
+
   const routes = [
     {
       href: "/",
-      label: "Dashboard",
+      label: t("dashboard"),
       icon: Layout,
     },
     {
       href: "/analytics",
-      label: "Analytics",
+      label: t("analytics"),
       icon: BarChart3,
     },
     {
       href: "/settings",
-      label: "Settings",
+      label: t("settings"),
       icon: Settings,
     },
   ];
@@ -46,7 +49,7 @@ export default function Navbar() {
         </SheetTrigger>
         <SheetContent side="left">
           <SheetHeader className="flex flex-col h-full">
-            <SheetTitle className="mb-12">Navigation</SheetTitle>
+            <SheetTitle className="mb-12">{t("navigation")}</SheetTitle>
             <SheetDescription className="flex flex-col h-full">
               <div className="flex-grow flex flex-col gap-y-6">
                 {routes.map((route) => (

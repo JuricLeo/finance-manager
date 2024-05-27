@@ -1,6 +1,8 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
 import useCurrencyStore from '@/store/useCurrencyStore';
+import useLanguageStore from '@/store/useLanguageStore';
+
 import {
   Select,
   SelectContent,
@@ -9,10 +11,12 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
+const t = useLanguageStore.getState().t;
+
 const currencyOptions = [
-  { label: 'US Dollar ($)', value: '$' },
-  { label: 'Euro (€)', value: '€' },
-  { label: 'British Pound (£)', value: '£' },
+  { label: `${t("dollar")}`, value: "$" },
+  { label: `${t("euro")}`, value: "€" },
+  { label: `${t("british-pound")}`, value: "£" },
 ];
 
 export default function ChangeCurrency() {
@@ -22,7 +26,7 @@ export default function ChangeCurrency() {
 
   useEffect(() => {
     if (!initialized) {
-      const storedCurrency = localStorage.getItem('selectedCurrency');
+      const storedCurrency = localStorage.getItem("selectedCurrency");
       if (storedCurrency) {
         setSelectedCurrency(storedCurrency);
       }

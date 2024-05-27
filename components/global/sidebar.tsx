@@ -7,10 +7,12 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
+import useLanguageStore from "@/store/useLanguageStore";
 
 export default function Sidebar() {
   const pathname = usePathname();
   const { theme } = useTheme();
+  const { t } = useLanguageStore();
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -25,17 +27,17 @@ export default function Sidebar() {
   const routes = [
     {
       href: "/",
-      label: "Dashboard",
+      label: t("dashboard"),
       icon: Layout,
     },
     {
       href: "/analytics",
-      label: "Analytics",
+      label: t("analytics"),
       icon: BarChart3,
     },
     {
       href: "/settings",
-      label: "Settings",
+      label: t("settings"),
       icon: Settings,
     },
   ];

@@ -3,6 +3,7 @@
 import DeleteModal from "@/components/settings/delete-modal";
 import UpdateModal from "@/components/settings/update-modal";
 import { Button } from "@/components/ui/button";
+import useLanguageStore from "@/store/useLanguageStore";
 import { ColumnDef } from "@tanstack/react-table";
 
 type Category = {
@@ -16,10 +17,12 @@ type ColumnsProps = {
   onCategoryDeleted: () => void;
 };
 
+const t = useLanguageStore.getState().t;
+
 export const columns = ({ onCategoryUpdated, onCategoryDeleted }: ColumnsProps): ColumnDef<Category>[] => [
   {
     accessorKey: "name",
-    header: "Name",
+    header: t("table-name"),
     cell: (info) => (
       <div className="min-w-48 text-xl">{info.getValue() as string}</div>
     ),

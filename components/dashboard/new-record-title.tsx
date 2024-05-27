@@ -1,3 +1,4 @@
+import useLanguageStore from "@/store/useLanguageStore";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -43,11 +44,13 @@ export default function NewRecordTitle({ fetchExpenses, currency }: NewRecordTit
     return total;
   };
 
+  const { t } = useLanguageStore();
+
   return (
     <div>
-      <h2 className="text-center text-xl">Add a new expense</h2>
+      <h2 className="text-center text-xl">{t("new-expense-title")}</h2>
       <div className="text-center mt-12 flex items-center justify-center gap-x-4">
-        <h2 className="text-muted-foreground">Total expenses today:</h2>
+        <h2 className="text-muted-foreground">{t("total-expenses-today")}</h2>
         <div className="flex gap-x-2 text-4xl text-[#d19b45] dark:text-[#E8B86B]">
           <h2>{totalExpenses()}</h2>
           <p>{currency}</p>
