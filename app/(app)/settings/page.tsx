@@ -5,6 +5,7 @@ import { DataTable } from "@/components/settings/data-table";
 import { columns } from "./columns";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import ChangeCurrency from "@/components/settings/change-currency";
 
 const SettingsPage = () => {
   const [categories, setCategories] = useState([]);
@@ -42,6 +43,7 @@ const SettingsPage = () => {
       </div>
       <div className="flex items-center gap-x-2">
         <h2>Change the application's currency here:</h2>
+        <ChangeCurrency />
       </div>
       <div className="flex items-center gap-x-2">
         <h2>Change the application's language here:</h2>

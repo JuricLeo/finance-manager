@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 interface TodaysRecordsProps {
   fetchExpenses: () => void;
+  currency: string;
 }
 
 interface Expense {
@@ -20,7 +21,7 @@ interface Category {
   emoji: string;
 }
 
-export default function TodaysRecords({ fetchExpenses }: TodaysRecordsProps) {
+export default function TodaysRecords({ fetchExpenses, currency }: TodaysRecordsProps) {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
@@ -82,7 +83,7 @@ export default function TodaysRecords({ fetchExpenses }: TodaysRecordsProps) {
             </div>
             <div className="flex items-center text-rose-500 text-3xl">
               <p>{expense.amount}</p>
-              <p>$</p>
+              <p>{currency}</p>
             </div>
           </div>
         </div>

@@ -37,6 +37,7 @@ import { cn } from "@/lib/utils";
 
 interface AddNewRecordProps {
   refreshExpenses: () => void;
+  currency: string;
 }
 
 interface Category {
@@ -55,7 +56,7 @@ const formSchema = z.object({
   }),
 });
 
-export default function AddNewRecord({ refreshExpenses }: AddNewRecordProps) {
+export default function AddNewRecord({ refreshExpenses, currency }: AddNewRecordProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -150,7 +151,7 @@ export default function AddNewRecord({ refreshExpenses }: AddNewRecordProps) {
                           </FormItem>
                         )}
                       />
-                      <p className="text-2xl mr-2">$</p>
+                      <p className="text-2xl mr-2">{currency}</p>
                     </div>
                     <div
                       className={cn(
