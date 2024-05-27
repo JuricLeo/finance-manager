@@ -23,7 +23,9 @@ model Expense {
 
 model Category {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  name      String  @unique
+  name      String
   emoji     String? 
   userId    String  
+
+  @@unique([userId, name])
 }

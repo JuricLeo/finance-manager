@@ -8,11 +8,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Input } from "../ui/input";
 
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -22,12 +18,22 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Button } from "../ui/button";
+
+interface UpdateModalProps {
+  categoryId: string;
+  initialData: {
+    name: string;
+    emoji?: string;
+  };
+  onCategoryUpdated: () => void;
+}
+
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { toast } from "../ui/use-toast";
 import axios from "axios";
-
-interface AddNewCategoryProps {
-  onCategoryAdded: () => void;
-}
+import { Input } from "../ui/input";
 
 const formSchema = z.object({
   name: z
@@ -46,29 +52,31 @@ const formSchema = z.object({
     .optional(),
 });
 
-export default function AddNewCategory({ onCategoryAdded }: AddNewCategoryProps) {
+export default function UpdateModal({
+  categoryId,
+  initialData,
+  onCategoryUpdated,
+}: UpdateModalProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      emoji: "",
-    },
+    defaultValues: initialData,
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post("/api/category", values);
+      await axios.patch(`/api/category`, { categoryId, ...values });
       toast({
         title: "Success!",
-        description: "The category was successfully recorded",
+        description: "The category was successfully updated",
         variant: "success",
       });
-      onCategoryAdded();
+      onCategoryUpdated();
       form.reset();
-    } catch (error) {
+    } catch {
       toast({
         title: "Something went wrong.",
-        description: "Please try again later. ( Additionally check if category's name was unique ).",
+        description:
+          "Please try again later. ( Additionally check if category's name is unique ).",
         variant: "destructive",
       });
     }
@@ -78,28 +86,19 @@ export default function AddNewCategory({ onCategoryAdded }: AddNewCategoryProps)
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
-        <div className="bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
-          Add
-        </div>
-      </AlertDialogTrigger>
+      <AlertDialogTrigger>Update</AlertDialogTrigger>
       <AlertDialogContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <AlertDialogHeader>
-              <AlertDialogTitle>Add a new category</AlertDialogTitle>
+              <AlertDialogTitle>Update Category</AlertDialogTitle>
               <AlertDialogDescription className="py-4">
                 <FormField
                   control={form.control}
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="flex items-center">
-                        <p>Name</p>{" "}
-                        <span className="text-rose-800 text-xs ml-2">
-                          &#40;Category&apos;s name must be unique!&#41;
-                        </span>
-                      </FormLabel>
+                      <FormLabel>Name</FormLabel>
                       <FormControl>
                         <Input
                           disabled={isSubmitting}
@@ -133,7 +132,7 @@ export default function AddNewCategory({ onCategoryAdded }: AddNewCategoryProps)
             <AlertDialogFooter>
               <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
               <Button type="submit" disabled={isSubmitting}>
-                Add
+                Update
               </Button>
             </AlertDialogFooter>
           </form>

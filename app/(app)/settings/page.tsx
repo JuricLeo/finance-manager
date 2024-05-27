@@ -26,6 +26,10 @@ const SettingsPage = () => {
     fetchCategories();
   };
 
+  const handleCategoryUpdated = () => {
+    fetchCategories();
+  };
+
   return (
     <main className="p-8 space-y-6">
       <div className="flex items-center gap-x-2">
@@ -39,7 +43,11 @@ const SettingsPage = () => {
         <h2>Change the application's language here:</h2>
       </div>
       <div className="pt-4">
-        <DataTable columns={columns} data={categories} onCategoryAdded={handleNewCategoryAdded} />
+        <DataTable
+          columns={columns({ onCategoryUpdated: handleCategoryUpdated })}
+          data={categories}
+          onCategoryAdded={handleNewCategoryAdded}
+        />
       </div>
     </main>
   );

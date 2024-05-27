@@ -44,3 +44,38 @@ export async function POST(request: Request) {
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
+
+export async function PATCH(request: Request) {
+  try {
+    const { userId } = auth();
+
+    const { categoryId, name, emoji } = await request.json();
+
+    const category = await db.category.findUnique({
+      where: {
+        id: categoryId,
+      },
+    });
+
+    if (!category || category.userId !== userId) {
+      return new NextResponse("Category not found or unauthorized", {
+        status: 403,
+      });
+    }
+
+    const updatedCategory = await db.category.update({
+      where: {
+        id: categoryId,
+      },
+      data: {
+        name,
+        emoji,
+      },
+    });
+
+    return NextResponse.json(updatedCategory);
+  } catch (error) {
+    console.log("[CATEGORY PATCH ERROR]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
