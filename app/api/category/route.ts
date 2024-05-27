@@ -69,7 +69,7 @@ export async function PATCH(request: Request) {
       },
       data: {
         name,
-        emoji,
+        emoji: emoji || "✅",
       },
     });
 

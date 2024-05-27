@@ -32,6 +32,8 @@ interface AddNewCategoryProps {
 
 const t = useLanguageStore.getState().t;
 
+const emojiRegex = /^(?:|\p{Emoji_Presentation}|\p{Emoji}\uFE0F)$/u;
+
 const formSchema = z.object({
   name: z
     .string()
@@ -43,8 +45,8 @@ const formSchema = z.object({
     }),
   emoji: z
     .string()
-    .max(1, {
-      message: t("emoji-max"),
+    .regex(emojiRegex, {
+      message: t("invalid-emoji"),
     })
     .optional(),
 });
