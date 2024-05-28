@@ -53,7 +53,7 @@ export default function Pricing() {
             </div>
           </div>
           <Link href="/">
-            <Button variant="outline" className="mt-24">
+            <Button variant="outline" className="mt-24 bg-black">
               Enter FinancialFocus
             </Button>
           </Link>
