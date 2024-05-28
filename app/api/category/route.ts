@@ -63,12 +63,14 @@ export async function PATCH(request: Request) {
       });
     }
 
+    const lowercaseName = name.toLowerCase();
+
     const updatedCategory = await db.category.update({
       where: {
         id: categoryId,
       },
       data: {
-        name,
+        name: lowercaseName,
         emoji: emoji || "✅",
       },
     });

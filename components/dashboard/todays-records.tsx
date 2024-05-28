@@ -52,6 +52,13 @@ export default function TodaysRecords({
     fetchCategories();
   }, [fetchExpenses]);
 
+  const getCategoryEmoji = (categoryName: string) => {
+    const matchedCategory = categories.find(
+      (category) => category.name.toLowerCase() === categoryName.toLowerCase()
+    );
+    return matchedCategory ? matchedCategory.emoji : "✅";
+  };
+
   const today = new Date().toISOString().split("T")[0];
 
   const date = (dateTimeString: string) => {
@@ -59,13 +66,6 @@ export default function TodaysRecords({
     const hours = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
-  };
-
-  const getCategoryEmoji = (categoryName: string) => {
-    const matchedCategory = categories.find(
-      (category) => category.name.toLowerCase() === categoryName.toLowerCase()
-    );
-    return matchedCategory ? matchedCategory.emoji : "✅";
   };
 
   const todaysExpenses = expenses.filter(
