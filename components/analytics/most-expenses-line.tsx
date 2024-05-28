@@ -4,7 +4,7 @@ import "chart.js/auto";
 import useCurrencyStore from "@/store/useCurrencyStore";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 
 interface Expense {
   id: string;
@@ -13,11 +13,7 @@ interface Expense {
   date: string;
 }
 
-interface CategoryExpenses {
-  [key: string]: number;
-}
-
-export default function MostExpensesBar() {
+export default function MostExpensesLine() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
 
   useEffect(() => {
@@ -32,55 +28,26 @@ export default function MostExpensesBar() {
     fetchData();
   }, []);
 
-  const categoryExpenses: CategoryExpenses = {};
-
   const groupExpensesByDay = (expenses: Expense[]) => {
-    const groupedExpenses: { [key: string]: Expense[] } = {};
+    const groupedExpenses: { [key: string]: number } = {};
 
     expenses.forEach((expense) => {
       const date = new Date(expense.date);
       const day = date.toLocaleDateString("en-US", { weekday: "long", day: "2-digit" });
 
       if (groupedExpenses[day]) {
-        groupedExpenses[day].push(expense);
+        groupedExpenses[day] += expense.amount;
       } else {
-        groupedExpenses[day] = [expense];
+        groupedExpenses[day] = expense.amount;
       }
     });
 
     return groupedExpenses;
   };
 
-  const findHighestExpenseForEachDay = (groupedExpenses: {
-    [key: string]: Expense[];
-  }) => {
-    const highestExpenses: { [key: string]: Expense } = {};
-
-    Object.keys(groupedExpenses).forEach((day) => {
-      const expenses = groupedExpenses[day];
-      const highestExpense = expenses.reduce(
-        (max, expense) => (expense.amount > max.amount ? expense : max),
-        expenses[0]
-      );
-      highestExpenses[day] = highestExpense;
-    });
-
-    return highestExpenses;
-  };
-
-  expenses.forEach((expense) => {
-    const category = expense.category;
-    if (categoryExpenses[category]) {
-      categoryExpenses[category] += expense.amount;
-    } else {
-      categoryExpenses[category] = expense.amount;
-    }
-  });
-
   const currency = useCurrencyStore((state) => state.selectedCurrency);
 
   const groupedExpenses = groupExpensesByDay(expenses);
-  const highestExpenses = findHighestExpenseForEachDay(groupedExpenses);
 
   const getLast7Days = () => {
     const result = [];
@@ -95,14 +62,14 @@ export default function MostExpensesBar() {
 
   const last7Days = getLast7Days();
 
-  const labels = last7Days.filter(day => highestExpenses[day] !== undefined);
-  const data = labels.map(day => highestExpenses[day].amount);
+  const labels = last7Days.filter(day => groupedExpenses[day] !== undefined);
+  const data = labels.map(day => groupedExpenses[day]);
 
   const chartData = {
     labels,
     datasets: [
       {
-        label: `Highest expense of the day in ${currency}`,
+        label: `Total expenses of the day in ${currency}`,
         data,
         backgroundColor: [
           "#16a34a",
@@ -113,9 +80,9 @@ export default function MostExpensesBar() {
 
   return (
     <div className="w-full shadow-xl dark:bg-slate-950 rounded-md">
-      <h1 className="p-8 lg:pl-8 lg:pt-8 text-xl">Highest expense in a day in the past 7 days:</h1>
+      <h1 className="p-8 lg:pl-8 lg:pt-8 text-xl">Total expenses in a day in the past 7 days:</h1>
       <div className="mx-auto p-12">
-        <Bar data={chartData} />
+        <Line data={chartData} />
       </div>
     </div>
   );
