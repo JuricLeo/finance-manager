@@ -12,6 +12,7 @@ import {
 import { toast } from "../ui/use-toast";
 import axios from "axios";
 import useLanguageStore from "@/store/useLanguageStore";
+import { Button } from "../ui/button";
 
 interface DeleteModalProps {
   categoryId: string;
@@ -22,7 +23,7 @@ export default function DeleteModal({
   categoryId,
   onCategoryDeleted,
 }: DeleteModalProps) {
-  const { t } = useLanguageStore(); 
+  const { t } = useLanguageStore();
 
   const onDelete = async () => {
     await axios.delete("/api/category", { data: { categoryId } });
@@ -44,7 +45,11 @@ export default function DeleteModal({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>{t("delete")}</AlertDialogTrigger>
+      <AlertDialogTrigger>
+        <Button variant="destructive" className="w-20">
+          {t("delete")}
+        </Button>
+      </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{t("delete-title")}</AlertDialogTitle>
@@ -54,7 +59,9 @@ export default function DeleteModal({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
-          <AlertDialogAction onClick={onDelete}>{t("delete")}</AlertDialogAction>
+          <AlertDialogAction onClick={onDelete}>
+            {t("delete")}
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

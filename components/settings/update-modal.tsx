@@ -38,7 +38,7 @@ import useLanguageStore from "@/store/useLanguageStore";
 
 const t = useLanguageStore.getState().t;
 
-const emojiRegex = /^(?:|\p{Emoji_Presentation}|\p{Emoji}\uFE0F)$/u;
+const emojiRegex = /\p{Emoji}/u;
 
 const formSchema = z.object({
   name: z
@@ -51,10 +51,10 @@ const formSchema = z.object({
     }),
   emoji: z
     .string()
-    .regex(emojiRegex, {
+    .optional()
+    .refine((value) => !value || emojiRegex.test(value), {
       message: t("invalid-emoji"),
-    })
-    .optional(),
+    }),
 });
 
 export default function UpdateModal({
@@ -90,7 +90,11 @@ export default function UpdateModal({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="text-white dark:text-black">{t("update")}</AlertDialogTrigger>
+      <AlertDialogTrigger className="text-white dark:text-black">
+        <Button variant="update" className="w-20">
+          {t("update")}
+        </Button>
+      </AlertDialogTrigger>
       <AlertDialogContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>

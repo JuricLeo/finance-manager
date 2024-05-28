@@ -11,11 +11,13 @@ export async function POST(request: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    const lowercaseCategory = category.toLowerCase();
+
     const expense = await db.expense.create({
       data: {
         userId,
         amount,
-        category,
+        category: lowercaseCategory,
       },
     });
 

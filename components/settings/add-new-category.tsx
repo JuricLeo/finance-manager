@@ -32,7 +32,7 @@ interface AddNewCategoryProps {
 
 const t = useLanguageStore.getState().t;
 
-const emojiRegex = /^(?:|\p{Emoji_Presentation}|\p{Emoji}\uFE0F)$/u;
+const emojiRegex = /\p{Emoji}/u;
 
 const formSchema = z.object({
   name: z
@@ -45,10 +45,10 @@ const formSchema = z.object({
     }),
   emoji: z
     .string()
-    .regex(emojiRegex, {
+    .optional()
+    .refine((value) => !value || emojiRegex.test(value), {
       message: t("invalid-emoji"),
-    })
-    .optional(),
+    }),
 });
 
 export default function AddNewCategory({

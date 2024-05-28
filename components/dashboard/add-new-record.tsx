@@ -59,8 +59,10 @@ const formSchema = z.object({
   }),
 });
 
-
-export default function AddNewRecord({ refreshExpenses, currency }: AddNewRecordProps) {
+export default function AddNewRecord({
+  refreshExpenses,
+  currency,
+}: AddNewRecordProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -125,7 +127,9 @@ export default function AddNewRecord({ refreshExpenses, currency }: AddNewRecord
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle className="text-center">{t("today")} {date}</DrawerTitle>
+            <DrawerTitle className="text-center">
+              {t("today")} {date}
+            </DrawerTitle>
             <DrawerDescription>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -138,6 +142,7 @@ export default function AddNewRecord({ refreshExpenses, currency }: AddNewRecord
                           <FormItem>
                             <FormControl>
                               <Input
+                                type="number"
                                 className="text-black dark:text-white border-none focus-visible:ring-transparent text-2xl"
                                 disabled={isSubmitting}
                                 value={field.value || ""}
@@ -175,14 +180,18 @@ export default function AddNewRecord({ refreshExpenses, currency }: AddNewRecord
                               <FormControl>
                                 <Select
                                   onValueChange={(value) =>
-                                    field.onChange(value.toLowerCase())
+                                    field.onChange(value)
                                   }
                                   defaultValue={field.value}
                                   disabled={isSubmitting}
                                   {...field}
                                 >
                                   <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder={t("choose-category-placeholder")} />
+                                    <SelectValue
+                                      placeholder={t(
+                                        "choose-category-placeholder"
+                                      )}
+                                    />
                                   </SelectTrigger>
                                   <SelectContent>
                                     {categories.map((category) => (
@@ -196,13 +205,12 @@ export default function AddNewRecord({ refreshExpenses, currency }: AddNewRecord
                                   </SelectContent>
                                 </Select>
                               </FormControl>
+                              <FormMessage />
                             </FormItem>
                           )}
                         />
                       ) : (
-                        <p>
-                          {t("no-categories")}
-                        </p>
+                        <p>{t("no-categories")}</p>
                       )}
                     </div>
                   </div>

@@ -15,7 +15,10 @@ interface Expense {
   date: string;
 }
 
-export default function NewRecordTitle({ fetchExpenses, currency }: NewRecordTitleProps) {
+export default function NewRecordTitle({
+  fetchExpenses,
+  currency,
+}: NewRecordTitleProps) {
   const [expenses, setExpenses] = useState<Expense[]>([]);
 
   useEffect(() => {
@@ -52,7 +55,7 @@ export default function NewRecordTitle({ fetchExpenses, currency }: NewRecordTit
       <div className="text-center mt-12 flex items-center justify-center gap-x-4">
         <h2 className="text-muted-foreground">{t("total-expenses-today")}</h2>
         <div className="flex gap-x-2 text-4xl text-[#d19b45] dark:text-[#E8B86B]">
-          <h2>{totalExpenses()}</h2>
+          <p>{Number(totalExpenses().toPrecision(4))}</p>
           <p>{currency}</p>
         </div>
       </div>

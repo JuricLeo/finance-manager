@@ -63,7 +63,7 @@ export default function TodaysRecords({
 
   const getCategoryEmoji = (categoryName: string) => {
     const matchedCategory = categories.find(
-      (category) => category.name === categoryName
+      (category) => category.name.toLowerCase() === categoryName.toLowerCase()
     );
     return matchedCategory ? matchedCategory.emoji : "✅";
   };
@@ -89,12 +89,15 @@ export default function TodaysRecords({
                 </div>
               </div>
               <div className="flex items-center text-amber-500 text-3xl">
-                <p>{expense.amount}</p>
+                <p>{Number(expense.amount.toPrecision(4))}</p>
                 <p>{currency}</p>
               </div>
             </div>
           </div>
-          <DeleteRecord expenseId={expense.id} onExpenseDeleted={fetchExpenses} />
+          <DeleteRecord
+            expenseId={expense.id}
+            onExpenseDeleted={fetchExpenses}
+          />
         </div>
       ))}
     </div>

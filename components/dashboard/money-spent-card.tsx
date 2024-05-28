@@ -19,7 +19,7 @@ export default function MoneySpentCard({ date, amount }: MoneySpentCardProps) {
         {t("dashboard-card-message")} <span>{date}</span>:
       </p>
       <div className="mt-auto ml-auto">
-        <p className="text-3xl text-[#d19b45] dark:text-[#E8B86B]">{amount} {currency}</p>
+        <p className="text-3xl text-[#d19b45] dark:text-[#E8B86B]">{Number(amount.toPrecision(4))} {currency}</p>
       </div>
     </div>
   );
