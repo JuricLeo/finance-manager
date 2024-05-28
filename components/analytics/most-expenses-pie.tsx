@@ -5,6 +5,7 @@ import useCurrencyStore from "@/store/useCurrencyStore";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Pie } from "react-chartjs-2";
+import useLanguageStore from "@/store/useLanguageStore";
 
 interface Expense {
   id: string;
@@ -47,11 +48,13 @@ export default function MostExpensesPie () {
 
   const currency = useCurrencyStore((state) => state.selectedCurrency);
 
+  const { t } = useLanguageStore();
+
   const chartData = {
     labels,
     datasets: [
       {
-        label: `Amount of money spent in ${currency}`,
+        label: `${t("pie-label")} ${currency}`,
         data,
         backgroundColor: [
           "#16a34a",
@@ -69,7 +72,7 @@ export default function MostExpensesPie () {
 
   return (
     <div className="w-full shadow-xl dark:bg-slate-950 rounded-md">
-      <h1 className="pl-8 pt-8 text-xl">Most expenses by category:</h1>
+      <h1 className="pl-8 pt-8 text-xl">{t("most-expenses-category")}</h1>
       <div className="w-[350px] md:w-[460px] mx-auto py-12">
         <Pie data={chartData} />
       </div>

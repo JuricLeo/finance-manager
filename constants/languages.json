@@ -65,7 +65,21 @@
     "delete-category-toast-success-title": "Success!",
     "delete-category-toast-success-description": "The category was successfully deleted.",
     "delete-category-toast-error-title": "Something went wrong.",
-    "delete-category-toast-error-description": "Please try again later."
+    "delete-category-toast-error-description": "Please try again later.",
+    "pie-label": "Amount of money spent in",
+    "most-expenses-category": "Most expenses by category:",
+    "line-label": "Total expenses of the day in",
+    "total-expenses-category": "Total expenses in a day in the past 7 days:",
+    "bar-label": "Highest expense of the day in",
+    "highest-expense": "Highest expense in a day in the past 7 days:",
+    "expense-history": "History of expenses in the last 7 days:",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
   },
   "hr": {
     "dashboard": "Nadzorna Ploča",
@@ -133,6 +147,20 @@
     "delete-category-toast-success-title": "Uspjeh!",
     "delete-category-toast-success-description": "Kategorija je uspješno izbrisana.",
     "delete-category-toast-error-title": "Nešto je pošlo po krivu.",
-    "delete-category-toast-error-description": "Molimo pokušajte ponovo kasnije."
+    "delete-category-toast-error-description": "Molimo pokušajte ponovo kasnije.",
+    "pie-label": "Količina potrošena prikazana u",
+    "most-expenses-category": "Najviše troškova prema kategoriji:",
+    "line-label": "Ukupni trošak u danu prikazan u",
+    "total-expenses-category": "Ukupan trošak u danu kroz proteklih 7 dana:",
+    "bar-label": "Najveći trošak dana u",
+    "highest-expense": "Najveći trošak u danu u proteklih 7 dana:",
+    "expense-history": "Povijest troškova u proteklih 7 dana:",
+    "monday": "Ponedjeljak",
+    "tuesday": "Utorak",
+    "wednesday": "Srijeda",
+    "thursday": "Četvrtak",
+    "friday": "Petak",
+    "saturday": "Subota",
+    "sunday": "Nedjelja"
   }
 }

@@ -13,6 +13,7 @@ interface Category {
 }
 
 import useCurrencyStore from "@/store/useCurrencyStore";
+import useLanguageStore from "@/store/useLanguageStore";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -52,10 +53,12 @@ export default function ExpenseHistory() {
     return expenseDate >= thirtyDaysAgo && expenseDate <= today;
   });
 
+  const { t } = useLanguageStore();
+
   return (
     <div className="shadow-xl dark:bg-slate-950 rounded-md">
       <h1 className="pl-8 pt-8 text-xl">
-        History of expenses in the last 7 days:
+        {t("expense-history")}
       </h1>
       <div className="mx-auto py-12">
         {expensesLastThirtyDays.map((expense) => (

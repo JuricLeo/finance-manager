@@ -5,6 +5,7 @@ import useCurrencyStore from "@/store/useCurrencyStore";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
+import useLanguageStore from "@/store/useLanguageStore";
 
 interface Expense {
   id: string;
@@ -82,6 +83,8 @@ export default function MostExpensesBar() {
   const groupedExpenses = groupExpensesByDay(expenses);
   const highestExpenses = findHighestExpenseForEachDay(groupedExpenses);
 
+  const { t } = useLanguageStore();
+
   const getLast7Days = () => {
     const result = [];
     const today = new Date();
@@ -102,7 +105,7 @@ export default function MostExpensesBar() {
     labels,
     datasets: [
       {
-        label: `Highest expense of the day in ${currency}`,
+        label: `${t("bar-label")} ${currency}`,
         data,
         backgroundColor: [
           "#16a34a",
@@ -113,7 +116,7 @@ export default function MostExpensesBar() {
 
   return (
     <div className="w-full shadow-xl dark:bg-slate-950 rounded-md">
-      <h1 className="p-8 lg:pl-8 lg:pt-8 text-xl">Highest expense in a day in the past 7 days:</h1>
+      <h1 className="p-8 lg:pl-8 lg:pt-8 text-xl">{t("highest-expense")}</h1>
       <div className="mx-auto p-12">
         <Bar data={chartData} />
       </div>
