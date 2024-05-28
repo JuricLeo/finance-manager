@@ -1,4 +1,4 @@
-import create from "zustand";
+import { create } from "zustand";
 
 interface LanguageState {
   selectedLanguage: string;
@@ -9,17 +9,29 @@ interface LanguageState {
 
 const useLanguageStore = create<LanguageState>((set) => {
   const translations = require("@/constants/languages.json");
-  let selectedLanguage = localStorage.getItem("selectedLanguage") || "en";
+  let initialLanguage = "en";
+
+  const updateLanguageFromLocalStorage = () => {
+    const storedLanguage = localStorage.getItem("selectedLanguage") || "en";
+    set({ selectedLanguage: storedLanguage });
+  };
+
+  if (typeof window !== "undefined") {
+    updateLanguageFromLocalStorage();
+
+    window.addEventListener('storage', updateLanguageFromLocalStorage);
+  }
 
   return {
-    selectedLanguage,
+    selectedLanguage: initialLanguage,
     translations: translations,
     setSelectedLanguage: (language) => {
-      selectedLanguage = language;
       set({ selectedLanguage: language });
-      localStorage.setItem("selectedLanguage", language);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("selectedLanguage", language);
+      }
     },
-    t: (key) => translations[selectedLanguage][key] || key,
+    t: (key) => translations[initialLanguage][key] || key,
   };
 });
 

@@ -72,14 +72,7 @@
     "total-expenses-category": "Total expenses in a day in the past 7 days:",
     "bar-label": "Highest expense of the day in",
     "highest-expense": "Highest expense in a day in the past 7 days:",
-    "expense-history": "History of expenses in the last 7 days:",
-    "monday": "Monday",
-    "tuesday": "Tuesday",
-    "wednesday": "Wednesday",
-    "thursday": "Thursday",
-    "friday": "Friday",
-    "saturday": "Saturday",
-    "sunday": "Sunday"
+    "expense-history": "History of expenses in the last 7 days:"
   },
   "hr": {
     "dashboard": "Nadzorna Ploča",
@@ -154,13 +147,6 @@
     "total-expenses-category": "Ukupan trošak u danu kroz proteklih 7 dana:",
     "bar-label": "Najveći trošak dana u",
     "highest-expense": "Najveći trošak u danu u proteklih 7 dana:",
-    "expense-history": "Povijest troškova u proteklih 7 dana:",
-    "monday": "Ponedjeljak",
-    "tuesday": "Utorak",
-    "wednesday": "Srijeda",
-    "thursday": "Četvrtak",
-    "friday": "Petak",
-    "saturday": "Subota",
-    "sunday": "Nedjelja"
+    "expense-history": "Povijest troškova u proteklih 7 dana:"
   }
 }

@@ -16,8 +16,6 @@ interface Expense {
 
 export default function MostExpensesLine() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
-  const { t } = useLanguageStore();
-  const currency = useCurrencyStore((state) => state.selectedCurrency);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,47 +29,52 @@ export default function MostExpensesLine() {
     fetchData();
   }, []);
 
-  const groupExpensesByDay = (expenses: Expense[]) => {
+  const groupExpensesByDate = (expenses: Expense[]) => {
     const groupedExpenses: { [key: string]: number } = {};
 
     expenses.forEach((expense) => {
       const date = new Date(expense.date);
-      const day = date.toISOString().split("T")[0];
+      const formattedDate = date
+        .toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit" })
+        .replace(/\//g, "-");
 
-      if (groupedExpenses[day]) {
-        groupedExpenses[day] += expense.amount;
+      if (groupedExpenses[formattedDate]) {
+        groupedExpenses[formattedDate] += expense.amount;
       } else {
-        groupedExpenses[day] = expense.amount;
+        groupedExpenses[formattedDate] = expense.amount;
       }
     });
 
     return groupedExpenses;
   };
 
-  const groupedExpenses = groupExpensesByDay(expenses);
+  const currency = useCurrencyStore((state) => state.selectedCurrency);
+
+  const groupedExpenses = groupExpensesByDate(expenses);
 
   const getLast7Days = () => {
     const result = [];
     const today = new Date();
-    for (let i = 0; i < 7; i++) {
+    for (let i = 6; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(today.getDate() - i);
-      result.push(date.toISOString().split("T")[0]);
+      result.push(
+        date
+          .toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit" })
+          .replace(/\//g, "-")
+      );
     }
-    return result.reverse();
+    return result;
   };
 
   const last7Days = getLast7Days();
 
-  const getDayName = (dateString: string) => {
-    const date = new Date(dateString);
-    const options: Intl.DateTimeFormatOptions = { weekday: "long" };
-    const dayName = date.toLocaleDateString("en-US", options);
-    return t(dayName.toLowerCase());
-  };
+  const labels = last7Days.filter(
+    (date) => groupedExpenses[date] !== undefined
+  );
+  const data = labels.map((date) => groupedExpenses[date]);
 
-  const labels = last7Days.map(getDayName);
-  const data = last7Days.map((day) => groupedExpenses[day] || 0);
+  const { t } = useLanguageStore();
 
   const chartData = {
     labels,
@@ -79,7 +82,7 @@ export default function MostExpensesLine() {
       {
         label: `${t("line-label")} ${currency}`,
         data,
-        backgroundColor: "#16a34a",
+        backgroundColor: ["#16a34a"],
       },
     ],
   };

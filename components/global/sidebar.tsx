@@ -47,11 +47,12 @@ export default function Sidebar() {
   return (
     <aside className="flex flex-col h-full shadow-sm border-r">
       <Image
-        width={150}
-        height={150}
+        width={10}
+        height={10}
         alt="Logo"
         src={logoSrc}
-        className="m-auto mt-6"
+        className="m-auto mt-6 w-[150px] h-[75x]"
+        priority
       />
       <nav className="mt-8 flex-grow">
         {routes.map((route) => (

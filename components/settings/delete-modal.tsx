@@ -45,10 +45,12 @@ export default function DeleteModal({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
-        <Button variant="destructive" className="w-20">
-          {t("delete")}
-        </Button>
+      <AlertDialogTrigger asChild>
+        <div>
+          <Button variant="destructive" className="w-20">
+            {t("delete")}
+          </Button>
+        </div>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

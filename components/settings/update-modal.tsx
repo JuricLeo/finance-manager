@@ -90,52 +90,56 @@ export default function UpdateModal({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="text-white dark:text-black">
-        <Button variant="update" className="w-20">
-          {t("update")}
-        </Button>
+      <AlertDialogTrigger asChild>
+        <div className="inline-block text-white dark:text-black cursor-pointer">
+          <Button variant="update" className="w-20">
+            {t("update")}
+          </Button>
+        </div>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <AlertDialogHeader>
               <AlertDialogTitle>{t("update-title")}</AlertDialogTitle>
-              <AlertDialogDescription className="py-4">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("category-name-label")}</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isSubmitting}
-                          {...field}
-                          placeholder="Coffee"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="emoji"
-                  render={({ field }) => (
-                    <FormItem className="mt-4">
-                      <FormLabel>Emoji</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isSubmitting}
-                          {...field}
-                          placeholder="☕️"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </AlertDialogDescription>
+              <div>
+                <AlertDialogDescription className="py-4">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("category-name-label")}</FormLabel>
+                        <FormControl>
+                          <Input
+                            disabled={isSubmitting}
+                            {...field}
+                            placeholder="Coffee"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="emoji"
+                    render={({ field }) => (
+                      <FormItem className="mt-4">
+                        <FormLabel>Emoji</FormLabel>
+                        <FormControl>
+                          <Input
+                            disabled={isSubmitting}
+                            {...field}
+                            placeholder="☕️"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </AlertDialogDescription>
+              </div>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel type="button">{t("cancel")}</AlertDialogCancel>

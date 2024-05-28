@@ -75,7 +75,7 @@ export default function TodaysRecords({
   return (
     <div className="mt-12">
       {todaysExpenses.map((expense) => (
-        <div className="flex items-center w-[26rem] mx-auto">
+        <div key={expense.id} className="flex items-center w-[26rem] mx-auto">
           <div className="flex mt-2 justify-center w-[24rem] mx-auto py-4 px-8 bg-black/15 dark:bg-white/15 rounded-sm">
             <div
               key={expense.id}

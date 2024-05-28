@@ -40,7 +40,9 @@ export default function MostExpensesBar() {
 
     expenses.forEach((expense) => {
       const date = new Date(expense.date);
-      const day = date.toLocaleDateString("en-US", { weekday: "long", day: "2-digit" });
+      const day = date
+        .toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit" })
+        .replace(/\//g, "-");
 
       if (groupedExpenses[day]) {
         groupedExpenses[day].push(expense);
@@ -91,15 +93,19 @@ export default function MostExpensesBar() {
     for (let i = 7; i > 0; i--) {
       const date = new Date(today);
       date.setDate(today.getDate() - i);
-      result.push(date.toLocaleDateString("en-US", { weekday: "long", day: "2-digit" }));
+      result.push(
+        date
+          .toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit" })
+          .replace(/\//g, "-")
+      );
     }
     return result;
   };
 
   const last7Days = getLast7Days();
 
-  const labels = last7Days.filter(day => highestExpenses[day] !== undefined);
-  const data = labels.map(day => highestExpenses[day].amount);
+  const labels = last7Days.filter((day) => highestExpenses[day] !== undefined);
+  const data = labels.map((day) => highestExpenses[day].amount);
 
   const chartData = {
     labels,
@@ -107,9 +113,7 @@ export default function MostExpensesBar() {
       {
         label: `${t("bar-label")} ${currency}`,
         data,
-        backgroundColor: [
-          "#16a34a",
-        ],
+        backgroundColor: ["#16a34a"],
       },
     ],
   };
