@@ -126,7 +126,7 @@ export default function AddNewRecord({
           />
         </DrawerTrigger>
         <DrawerContent>
-          <DrawerHeader>
+          <DrawerHeader style={{ pointerEvents: "auto" }}>
             <DrawerTitle className="text-center">
               {t("today")} {date}
             </DrawerTitle>
