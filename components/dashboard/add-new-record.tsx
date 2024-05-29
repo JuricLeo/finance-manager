@@ -210,7 +210,7 @@ export default function AddNewRecord({
                           )}
                         />
                       ) : (
-                        <p>{t("no-categories")}</p>
+                        <p className="text-rose-600">{t("no-categories")}</p>
                       )}
                     </div>
                   </div>

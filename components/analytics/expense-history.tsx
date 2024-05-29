@@ -45,23 +45,23 @@ export default function ExpenseHistory() {
   };
 
   const today = new Date();
-  const thirtyDaysAgo = new Date();
-  thirtyDaysAgo.setDate(today.getDate() - 7);
+  today.setHours(0, 0, 0, 0);
 
-  const expensesLastThirtyDays = expenses.filter((expense) => {
+  const sevenDaysAgo = new Date(today);
+  sevenDaysAgo.setDate(today.getDate() - 7);
+
+  const expensesLastSevenDays = expenses.filter((expense) => {
     const expenseDate = new Date(expense.date);
-    return expenseDate >= thirtyDaysAgo && expenseDate <= today;
+    return expenseDate >= sevenDaysAgo && expenseDate <= today;
   });
 
   const { t } = useLanguageStore();
 
   return (
     <div className="shadow-xl dark:bg-slate-950 rounded-md">
-      <h1 className="pl-8 pt-8 text-xl">
-        {t("expense-history")}
-      </h1>
+      <h1 className="pl-8 pt-8 text-xl">{t("expense-history")}</h1>
       <div className="mx-auto py-12">
-        {expensesLastThirtyDays.map((expense) => (
+        {expensesLastSevenDays.map((expense) => (
           <div key={expense.id} className="flex items-center w-[26rem] mx-auto">
             <div className="flex mt-2 justify-center w-[24rem] mx-auto py-4 px-8 bg-black/15 dark:bg-white/15 rounded-sm">
               <div

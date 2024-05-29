@@ -30,9 +30,11 @@ export async function POST(request: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    const lowercaseName = name.toLowerCase();
+
     const category = await db.category.create({
       data: {
-        name,
+        name: lowercaseName,
         emoji: emoji || "✅",
         userId,
       },

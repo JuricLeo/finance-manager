@@ -55,7 +55,7 @@ export default function MostExpensesLine() {
   const getLast7Days = () => {
     const result = [];
     const today = new Date();
-    for (let i = 6; i >= 0; i--) {
+    for (let i = 6; i > 0; i--) {
       const date = new Date(today);
       date.setDate(today.getDate() - i);
       result.push(
@@ -82,7 +82,8 @@ export default function MostExpensesLine() {
       {
         label: `${t("line-label")} ${currency}`,
         data,
-        backgroundColor: ["#16a34a"],
+        backgroundColor: "#16a34a",
+        borderColor: "#16a34a",
       },
     ],
   };

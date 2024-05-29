@@ -1,8 +1,13 @@
 import { Check } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
 
 export default function Pricing() {
+  const { user } = useUser();
+
+  const link = user ? "/" : "/sign-in";
+
   return (
     <section className="flex flex-col mt-36">
       <h1 className="text-4xl mb-2 text-center">Plans & Pricing</h1>
@@ -25,7 +30,7 @@ export default function Pricing() {
               </div>
             </div>
           </div>
-          <Link href="/">
+          <Link href={link}>
             <Button className="mt-24">Enter FinancialFocus</Button>
           </Link>
         </div>
@@ -52,7 +57,7 @@ export default function Pricing() {
               </div>
             </div>
           </div>
-          <Link href="/">
+          <Link href={link}>
             <Button variant="outline" className="mt-24 bg-black">
               Enter FinancialFocus
             </Button>
@@ -85,7 +90,7 @@ export default function Pricing() {
               </div>
             </div>
           </div>
-          <Link href="/">
+          <Link href={link}>
             <Button className="mt-24">Enter FinancialFocus</Button>
           </Link>
         </div>
