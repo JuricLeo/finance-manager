@@ -75,29 +75,36 @@ export default function TodaysRecords({
   return (
     <div className="mt-12">
       {todaysExpenses.map((expense) => (
-        <div key={expense.id} className="flex items-center w-[26rem] mx-auto">
-          <div className="flex mt-2 justify-center w-[24rem] mx-auto py-4 px-8 bg-black/15 dark:bg-white/15 rounded-sm">
-            <div
-              key={expense.id}
-              className="flex justify-between w-full items-center"
-            >
-              <div className="flex items-center gap-x-4">
-                <p className="text-4xl">{getCategoryEmoji(expense.category)}</p>
-                <div className="flex flex-col">
-                  <p className="capitalize">{expense.category}</p>
-                  <p>{date(expense.date)}</p>
+        <div
+          key={expense.id}
+          className="flex items-center md:w-[26rem] md:mx-auto"
+        >
+          <div className="flex flex-col items-center md:flex-row mx-auto gap-x-3">
+            <div className="flex mt-2 justify-center w-[18rem] md:w-[24rem] md:mx-auto py-4 px-8 bg-black/15 dark:bg-white/15 rounded-sm">
+              <div
+                key={expense.id}
+                className="flex justify-between w-full items-center"
+              >
+                <div className="flex items-center gap-x-4">
+                  <p className="text-4xl">
+                    {getCategoryEmoji(expense.category)}
+                  </p>
+                  <div className="flex flex-col">
+                    <p className="capitalize">{expense.category}</p>
+                    <p>{date(expense.date)}</p>
+                  </div>
+                </div>
+                <div className="flex items-center text-amber-500 text-3xl">
+                  <p>{Number(expense.amount.toPrecision(4))}</p>
+                  <p>{currency}</p>
                 </div>
               </div>
-              <div className="flex items-center text-amber-500 text-3xl">
-                <p>{Number(expense.amount.toPrecision(4))}</p>
-                <p>{currency}</p>
-              </div>
             </div>
+            <DeleteRecord
+              expenseId={expense.id}
+              onExpenseDeleted={fetchExpenses}
+            />
           </div>
-          <DeleteRecord
-            expenseId={expense.id}
-            onExpenseDeleted={fetchExpenses}
-          />
         </div>
       ))}
     </div>

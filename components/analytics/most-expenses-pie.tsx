@@ -73,7 +73,7 @@ export default function MostExpensesPie () {
   return (
     <div className="w-full shadow-xl dark:bg-slate-950 rounded-md">
       <h1 className="pl-8 pt-8 text-xl">{t("most-expenses-category")}</h1>
-      <div className="w-[350px] md:w-[460px] mx-auto py-12">
+      <div className="w-[300px] sm:w-[350px] md:w-[460px] mx-auto py-12">
         <Pie data={chartData} />
       </div>
     </div>

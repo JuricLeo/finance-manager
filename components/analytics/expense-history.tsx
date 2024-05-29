@@ -59,15 +59,15 @@ export default function ExpenseHistory() {
 
   return (
     <div className="shadow-xl dark:bg-slate-950 rounded-md">
-      <h1 className="pl-8 pt-8 text-xl">{t("expense-history")}</h1>
-      <div className="mx-auto py-12">
+      <h1 className="pl-4 pt-8 md:pl-8 md:pt-8 text-xl">{t("expense-history")}</h1>
+      <div className="mx-auto py-12 px-2">
         {expensesLastSevenDays.map((expense) => (
-          <div key={expense.id} className="flex items-center w-[26rem] mx-auto">
-            <div className="flex mt-2 justify-center w-[24rem] mx-auto py-4 px-8 bg-black/15 dark:bg-white/15 rounded-sm">
-              <div
-                key={expense.id}
-                className="flex justify-between w-full items-center"
-              >
+          <div
+            key={expense.id}
+            className="w-full max-w-xs md:max-w-md lg:max-w-lg mx-auto"
+          >
+            <div className="flex mt-2 justify-center py-4 px-4 bg-black/15 dark:bg-white/15 rounded-sm">
+              <div className="flex justify-between w-full items-center">
                 <div className="flex items-center gap-x-4">
                   <p className="text-4xl">
                     {getCategoryEmoji(expense.category)}

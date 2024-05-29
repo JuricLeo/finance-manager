@@ -21,8 +21,11 @@ interface DeleteRecordProps {
   onExpenseDeleted: () => void;
 }
 
-export default function DeleteRecord({ expenseId, onExpenseDeleted }: DeleteRecordProps) {
-  const { t } = useLanguageStore(); 
+export default function DeleteRecord({
+  expenseId,
+  onExpenseDeleted,
+}: DeleteRecordProps) {
+  const { t } = useLanguageStore();
 
   const onDelete = async () => {
     await axios.delete("/api/expense", { data: { expenseId } });
@@ -43,22 +46,26 @@ export default function DeleteRecord({ expenseId, onExpenseDeleted }: DeleteReco
   };
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger>
-        <CircleMinus className="ml-4 text-rose-400 cursor-pointer" />
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>{t("delete-expense-title")}</AlertDialogTitle>
-          <AlertDialogDescription className="py-2">
-            {t("delete-expense-description")}
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
-          <AlertDialogAction onClick={onDelete}>{t("delete")}</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <div className="mx-auto mt-4 mb-4 md:mt-0 md:mb-0">
+      <AlertDialog>
+        <AlertDialogTrigger>
+          <CircleMinus className="md:ml-4 text-rose-400 cursor-pointer" />
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("delete-expense-title")}</AlertDialogTitle>
+            <AlertDialogDescription className="py-2">
+              {t("delete-expense-description")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
+            <AlertDialogAction onClick={onDelete}>
+              {t("delete")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
   );
 }

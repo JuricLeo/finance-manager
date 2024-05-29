@@ -9,8 +9,8 @@ export default function AboutSection() {
           <Clock size={50} className="mx-auto" />
           <h2 className="text-2xl my-6">Saves Time</h2>
           <p>
-            Automate your financial tracking and budgeting, reducing manual
-            effort and allowing you to focus on more important tasks.
+            Automate your financial tracking and budgeting, reduces manual
+            effort and allows you to focus on more important tasks.
           </p>
         </div>
         <div className="text-center bg-slate-900 p-6 rounded-sm max-w-[40rem] mx-auto lg:w-[18rem]">
@@ -18,7 +18,7 @@ export default function AboutSection() {
           <h2 className="text-2xl my-6">Detailed Analytics</h2>
           <p>
             Gain insights into your spending patterns with comprehensive reports
-            and visualizations, helping you make informed financial decisions.
+            and visualizations, helps you make informed financial decisions.
           </p>
         </div>
         <div className="text-center bg-slate-900 p-6 rounded-sm max-w-[40rem] mx-auto lg:w-[18rem]">
