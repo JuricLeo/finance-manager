@@ -15,9 +15,12 @@ import {
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import useLanguageStore from "@/store/useLanguageStore";
+import { useState } from "react";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const closeSheet = () => setIsSheetOpen(false);
 
   const { t } = useLanguageStore();
 
@@ -43,7 +46,7 @@ export default function Navbar() {
 
   return (
     <header className="flex items-center h-20 px-8 justify-between shadow-sm border-b">
-      <Sheet>
+      <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetTrigger className="md:hidden">
           <Menu />
         </SheetTrigger>
@@ -56,6 +59,7 @@ export default function Navbar() {
                   <Link
                     href={route.href}
                     key={route.href}
+                    onClick={closeSheet}
                     className={cn(
                       "flex items-center gap-x-2 py-6 pr-6",
                       pathname === route.href ? "border-r-2 border-primary" : ""

@@ -8,8 +8,8 @@ export default function Header() {
 
   return (
     <header className="relative z-10 flex justify-between items-center py-8 bg-[hsl(0.7,0.55,0.06)] text-white">
-      <Image src="/logo-light.svg" width={100} height={100} alt="Logo" />
-      <h1 className="text-2xl md:text-3xl">FinancialFocus</h1>
+      <Image src="/logo-light.svg" width={100} height={100} alt="Logo" className="" />
+      <h1 className="hidden md:block md:text-3xl">FinancialFocus</h1>
       <div>
         {!user ? (
           <>
