@@ -6,10 +6,15 @@ interface CurrencyState {
 }
 
 const useCurrencyStore = create<CurrencyState>((set) => ({
-  selectedCurrency: localStorage.getItem("selectedCurrency") || "$",
+  selectedCurrency:
+    typeof window !== "undefined"
+      ? localStorage.getItem("selectedCurrency") || "$"
+      : "$",
   setSelectedCurrency: (currency) => {
     set({ selectedCurrency: currency });
-    localStorage.setItem("selectedCurrency", currency);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("selectedCurrency", currency);
+    }
   },
 }));
 

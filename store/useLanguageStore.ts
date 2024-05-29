@@ -9,7 +9,11 @@ interface LanguageState {
 
 const useLanguageStore = create<LanguageState>((set) => {
   const translations = require("@/constants/languages.json");
-  let selectedLanguage = localStorage.getItem("selectedLanguage") || "en";
+  let selectedLanguage = "en";
+
+  if (typeof window !== "undefined") {
+    selectedLanguage = localStorage.getItem("selectedLanguage") || "en";
+  }
 
   return {
     selectedLanguage,
@@ -17,7 +21,9 @@ const useLanguageStore = create<LanguageState>((set) => {
     setSelectedLanguage: (language) => {
       selectedLanguage = language;
       set({ selectedLanguage: language });
-      localStorage.setItem("selectedLanguage", language);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("selectedLanguage", language);
+      }
     },
     t: (key) => translations[selectedLanguage][key] || key,
   };
