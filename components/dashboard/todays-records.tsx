@@ -56,7 +56,7 @@ export default function TodaysRecords({
     const matchedCategory = categories.find(
       (category) => category.name.toLowerCase() === categoryName.toLowerCase()
     );
-    return matchedCategory ? matchedCategory.emoji : "✅";
+    return matchedCategory?.emoji;
   };
 
   const today = new Date().toISOString().split("T")[0];

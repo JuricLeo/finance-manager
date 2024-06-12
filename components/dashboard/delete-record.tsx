@@ -49,7 +49,7 @@ export default function DeleteRecord({
     <div className="mx-auto mt-4 mb-4 md:mt-0 md:mb-0">
       <AlertDialog>
         <AlertDialogTrigger>
-          <CircleMinus className="md:ml-4 text-rose-400 cursor-pointer" />
+          <CircleMinus className="md:ml-4 md:mt-4 text-rose-400 cursor-pointer" />
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
