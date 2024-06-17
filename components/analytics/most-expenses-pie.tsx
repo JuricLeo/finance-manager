@@ -29,6 +29,7 @@ export default function MostExpensesPie () {
         console.log("Error fetching data: ", error);
       }
     };
+    
     fetchData();
   }, []);
 

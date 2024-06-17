@@ -32,6 +32,7 @@ export default function ExpenseHistory() {
         console.log("Error fetching data: ", error);
       }
     };
+    
     fetchData();
   }, []);
 

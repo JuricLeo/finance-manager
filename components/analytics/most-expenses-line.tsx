@@ -26,6 +26,7 @@ export default function MostExpensesLine() {
         console.log("Error fetching data: ", error);
       }
     };
+    
     fetchData();
   }, []);
 

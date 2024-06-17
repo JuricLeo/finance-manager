@@ -30,6 +30,7 @@ export default function MostExpensesBar() {
         console.log("Error fetching data: ", error);
       }
     };
+
     fetchData();
   }, []);
 
@@ -70,15 +71,6 @@ export default function MostExpensesBar() {
 
     return highestExpenses;
   };
-
-  expenses.forEach((expense) => {
-    const category = expense.category;
-    if (categoryExpenses[category]) {
-      categoryExpenses[category] += expense.amount;
-    } else {
-      categoryExpenses[category] = expense.amount;
-    }
-  });
 
   const currency = useCurrencyStore((state) => state.selectedCurrency);
 
