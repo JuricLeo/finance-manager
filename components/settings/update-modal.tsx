@@ -38,6 +38,7 @@ import useLanguageStore from "@/store/useLanguageStore";
 
 const t = useLanguageStore.getState().t;
 
+// @ts-ignore
 const emojiRegex = /\p{Emoji}/u;
 
 const formSchema = z.object({
@@ -143,7 +144,7 @@ export default function UpdateModal({
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel type="button">{t("cancel")}</AlertDialogCancel>
-              <Button type="submit" disabled={isSubmitting}>
+              <Button variant="update" type="submit" disabled={isSubmitting}>
                 {t("update")}
               </Button>
             </AlertDialogFooter>
