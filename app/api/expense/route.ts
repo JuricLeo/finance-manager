@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 export async function POST(request: Request) {
   try {
     const { userId } = auth();
-    const { amount, category } = await request.json();
+    const { amount, category, date } = await request.json();
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -18,6 +18,7 @@ export async function POST(request: Request) {
         userId,
         amount,
         category: lowercaseCategory,
+        date
       },
     });
 

@@ -32,9 +32,20 @@ import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useToast } from "../ui/use-toast";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import useLanguageStore from "@/store/useLanguageStore";
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+
+import { Calendar as CalendarIcon } from "lucide-react";
+
+import { format } from "date-fns";
 
 interface AddNewRecordProps {
   refreshExpenses: () => void;
@@ -57,6 +68,7 @@ const formSchema = z.object({
   category: z.string().min(1, {
     message: t("category-required"),
   }),
+  date: z.date(),
 });
 
 export default function AddNewRecord({
@@ -66,8 +78,10 @@ export default function AddNewRecord({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      // @ts-ignore
       amount: null,
       category: "",
+      date: new Date(),
     },
   });
 
@@ -75,14 +89,22 @@ export default function AddNewRecord({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post("/api/expense", values);
+      await axios.post("/api/expense", {
+        ...values,
+        date: values.date.toISOString(),
+      });
       toast({
         title: t("add-expense-toast-success-title"),
         description: t("add-expense-toast-success-description"),
         variant: "success",
       });
       refreshExpenses();
-      form.reset();
+      form.reset({
+        // @ts-ignore
+        amount: null,
+        category: "",
+        date: new Date(),
+      });
     } catch {
       toast({
         title: t("add-expense-toast-error-title"),
@@ -107,12 +129,7 @@ export default function AddNewRecord({
     fetchCategory();
   }, []);
 
-  const today = new Date();
-  const day = String(today.getDate()).padStart(2, "0");
-  const month = String(today.getMonth() + 1).padStart(2, "0");
-  const year = today.getFullYear();
-
-  const date = `${day}. ${month}. ${year}.`;
+  const selectedDate = form.watch("date");
 
   const { toast } = useToast();
 
@@ -127,8 +144,38 @@ export default function AddNewRecord({
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader style={{ pointerEvents: "auto" }}>
-            <DrawerTitle className="text-center">
-              {t("today")} {date}
+            <DrawerTitle className="flex justify-center items-center gap-2">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-[280px] justify-center text-left font-normal",
+                      !selectedDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4 text-primary" />
+                    {selectedDate ? (
+                      format(selectedDate, "PPP")
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent
+                  className="w-auto p-0"
+                  style={{ pointerEvents: "auto" }}
+                >
+                  <Calendar
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={(newDate) =>
+                      form.setValue("date", newDate || new Date())
+                    }
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
             </DrawerTitle>
             <DrawerDescription>
               <Form {...form}>
